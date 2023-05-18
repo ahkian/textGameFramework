@@ -10,16 +10,25 @@ export function Stats () {
     const statEntries = []
 
     function regStatLI (key) {
-        return(<li key={uuidv4()} className={styles.listItems}><button onClick={() => dispatch({type: decrement, payload: { stat: key, value: 1}})}>-</button>{key}: {stats[key]} <button onClick={() => dispatch({type: increment, payload: {stat: key, value: 1}})}>+</button></li>)
+        return(<li key={uuidv4()} className={styles.listItems}><button onClick={() => dispatch({type: decrement, payload: { stat: key, value: 1}})}>-</button>{`${key} : ${stats[key]}`} <button onClick={() => dispatch({type: increment, payload: {stat: key, value: 1}})}>+</button></li>)
       }
       
       function trueFalse (key) {
-        return(<li key={uuidv4()} className={styles.listItems}><button onClick={() => dispatch({type: setTF, payload: {stat: key, value: 1}})}>T/F</button> {key}: {stats[key] ? "T" : "F"}</li>)
+        return(<li key={uuidv4()} className={styles.listItems}><button onClick={() => dispatch({type: setTF, payload: {stat: key, value: 1}})}>T/F</button> {`${key}: ${stats[key] ? "T" : "F"}`}</li>)
+      }
+
+      function immutables (key) {
+        return(<li key={uuidv4()} className={styles.listItems}>{`${key} : ${stats[key]}`}</li>)
       }
 
     for (const key in stats){
-        statEntries.push(key.includes("TF") ? trueFalse(key) : regStatLI(key) )
-
+        if (key.includes("TF")){
+            statEntries.push(trueFalse(key))
+        } else if (key === "Name"){
+            statEntries.push(immutables(key))
+        } else {
+            statEntries.push(regStatLI(key))
+        }
     }
 
     return(
