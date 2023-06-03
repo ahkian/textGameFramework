@@ -29,11 +29,12 @@ export function Stats () {
         } else {
             statEntries.push(regStatLI(key))
         }
+        console.log(key, stats[key])
     }
 
     return(
         <ul className={styles.list}>
-            {statEntries}
+            {statEntries.map(el => el)}
         </ul>
     )
 }
